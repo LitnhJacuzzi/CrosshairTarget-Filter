@@ -1,0 +1,27 @@
+plugins {
+	id 'java-library'
+	id 'fabric-loom' version '1.11+'
+}
+
+loom {
+	mixin {
+		useLegacyMixinAp = false
+	}
+}
+
+dependencies {
+	minecraft "com.mojang:minecraft:${project.minecraft_version}"
+	mappings loom.officialMojangMappings()
+	
+	compileOnly "org.spongepowered:mixin:0.8.5"
+	compileOnly "org.ow2.asm:asm-tree:9.6"
+	
+	compileOnlyApi "me.shedaniel.cloth:cloth-config-forge:$clothconfig_version"
+}
+
+java {
+	withSourcesJar()
+
+	sourceCompatibility = JavaVersion.VERSION_17
+	targetCompatibility = JavaVersion.VERSION_17
+}

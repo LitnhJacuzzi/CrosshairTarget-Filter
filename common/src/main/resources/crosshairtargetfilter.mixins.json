@@ -1,0 +1,9 @@
+{
+	"required": true,
+	"package": "org.litnhjacuzzi.crosshairtargetfilter.mixin",
+	"compatibilityLevel": "JAVA_17",
+	"plugin": "org.litnhjacuzzi.crosshairtargetfilter.CTFMixinPlugin",
+	"injectors": {
+		"defaultRequire": 1
+	}
+}

@@ -1,0 +1,12 @@
+{
+  "text.autoconfig.crosshairtargetfilter.title": "Filter Config",
+
+  "text.autoconfig.crosshairtargetfilter.option.enableEntityFilter": "Enable Entity Filter",
+  "text.autoconfig.crosshairtargetfilter.option.entityFilterType": "Entity Filter Type",
+  "text.autoconfig.crosshairtargetfilter.option.entityWhitelist": "Entity Whitelist",
+  "text.autoconfig.crosshairtargetfilter.option.entityBlacklist": "Entity Blacklist",
+  "text.autoconfig.crosshairtargetfilter.option.enableBlockFilter": "Enable Block Filter",
+  "text.autoconfig.crosshairtargetfilter.option.blockFilterType": "Block Filter Type",
+  "text.autoconfig.crosshairtargetfilter.option.blockWhitelist": "Block Whitelist",
+  "text.autoconfig.crosshairtargetfilter.option.blockBlacklist": "Block Blacklist"
+}

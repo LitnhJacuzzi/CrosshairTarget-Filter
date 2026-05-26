@@ -1,0 +1,37 @@
+{
+	"schemaVersion": 1,
+	"id": "crosshairtargetfilter",
+	"version": "${mod_version}",
+	"name": "${mod_name}",
+	"description": "${description}",
+	"authors": [
+		"${author}"
+	],
+	"contact": {
+		"sources": "${mod_url}"
+	},
+	"license": "${license}",
+	"icon": "${mod_logo}",
+	"environment": "client",
+	"entrypoints": {
+		"client": [
+			"org.litnhjacuzzi.crosshairtargetfilter.CrosshairTargetFilter"
+		],
+		"modmenu": [
+			"org.litnhjacuzzi.crosshairtargetfilter.CTFModMenuIntegration"
+		]
+	},
+	"mixins": [
+		"crosshairtargetfilter.mixins.json"
+	],
+	"depends": {
+		"fabricloader": "*",
+		"minecraft": ">=1.17 <=1.21.11",
+		"java": ">=17"
+	},
+	"suggests": {
+		"fabric-api": "*",
+		"cloth-config": "*",
+		"modmenu": "*"
+	}
+}

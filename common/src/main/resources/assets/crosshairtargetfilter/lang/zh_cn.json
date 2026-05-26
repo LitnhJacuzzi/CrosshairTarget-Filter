@@ -1,0 +1,12 @@
+{
+  "text.autoconfig.crosshairtargetfilter.title": "过滤选项",
+  
+  "text.autoconfig.crosshairtargetfilter.option.enableEntityFilter": "开启实体过滤",
+  "text.autoconfig.crosshairtargetfilter.option.entityFilterType": "实体过滤模式",
+  "text.autoconfig.crosshairtargetfilter.option.entityWhitelist": "实体白名单",
+  "text.autoconfig.crosshairtargetfilter.option.entityBlacklist": "实体黑名单",
+  "text.autoconfig.crosshairtargetfilter.option.enableBlockFilter": "开启方块过滤",
+  "text.autoconfig.crosshairtargetfilter.option.blockFilterType": "方块过滤模式",
+  "text.autoconfig.crosshairtargetfilter.option.blockWhitelist": "方块白名单",
+  "text.autoconfig.crosshairtargetfilter.option.blockBlacklist": "方块黑名单"
+}
