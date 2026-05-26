@@ -8,5 +8,10 @@
   "text.autoconfig.crosshairtargetfilter.option.enableBlockFilter": "Enable Block Filter",
   "text.autoconfig.crosshairtargetfilter.option.blockFilterType": "Block Filter Type",
   "text.autoconfig.crosshairtargetfilter.option.blockWhitelist": "Block Whitelist",
-  "text.autoconfig.crosshairtargetfilter.option.blockBlacklist": "Block Blacklist"
+  "text.autoconfig.crosshairtargetfilter.option.blockBlacklist": "Block Blacklist",
+  
+  "key.categories.crosshairtargetfilter": "CrosshairTarget Filter",
+  "key.category.crosshairtargetfilter.togglefilter": "CrosshairTarget Filter",
+  "key.toggleentityfilter": "Toggle Entity Filter",
+  "key.toggleblockfilter": "Toggle Block Filter"
 }

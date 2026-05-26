@@ -106,6 +106,10 @@ public class CTFCore {
 		return isFiltered == (CONFIG.getBlockFilterType() == FilterType.WHITELIST);
 	}
 	
+	public static boolean isIntermediary() {
+		return blockRegistryAccessor.isIntermediary();
+	}
+	
 	static {
 		Class<?> blockRegistryAccessorCls = null;
 		try {

@@ -8,5 +8,10 @@
   "text.autoconfig.crosshairtargetfilter.option.enableBlockFilter": "开启方块过滤",
   "text.autoconfig.crosshairtargetfilter.option.blockFilterType": "方块过滤模式",
   "text.autoconfig.crosshairtargetfilter.option.blockWhitelist": "方块白名单",
-  "text.autoconfig.crosshairtargetfilter.option.blockBlacklist": "方块黑名单"
+  "text.autoconfig.crosshairtargetfilter.option.blockBlacklist": "方块黑名单",
+  
+  "key.categories.crosshairtargetfilter": "十字准星目标过滤器",
+  "key.category.crosshairtargetfilter.togglefilter": "十字准星目标过滤器",
+  "key.toggleentityfilter": "开启/关闭实体过滤",
+  "key.toggleblockfilter": "开启/关闭方块过滤"
 }

@@ -18,4 +18,4 @@ plugins {
 }
 
 rootProject.name = "CrosshairTarget Filter"
-include ':common', ':fabric'
+include ':common', ':fabric', 'neoforge'

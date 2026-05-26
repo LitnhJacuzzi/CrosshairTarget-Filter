@@ -1,9 +1,9 @@
 plugins {
-	id 'fabric-loom' version "1.11+"
+	id 'fabric-loom' version "1.8+"
 }
 
 base {
-	archivesName = "${rootProject.name}-${mod_version}-fabric"
+	archivesName = "${rootProject.name}-${mod_version}-fabric+1.17-1.21.11"
 }
 
 repositories {
@@ -50,5 +50,6 @@ jar {
 	exclude 'net/minecraft/**/*.class'
 	from (project(":common").sourceSets.main.output) {
 		exclude 'com/terraformersmc/**/*.class'
+		exclude 'me/shedaniel/**/*.class'
 	}
 }

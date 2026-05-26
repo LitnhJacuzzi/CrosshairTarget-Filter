@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import me.shedaniel.autoconfig.AutoConfig;
+import me.shedaniel.autoconfig.AutoConfigClient;
 import me.shedaniel.autoconfig.ConfigData;
 import me.shedaniel.autoconfig.ConfigHolder;
 import me.shedaniel.autoconfig.annotation.Config;
@@ -11,7 +12,6 @@ import me.shedaniel.autoconfig.annotation.ConfigEntry;
 import me.shedaniel.autoconfig.annotation.ConfigEntry.Gui.EnumHandler.EnumDisplayOption;
 import me.shedaniel.clothconfig2.gui.AbstractConfigScreen;
 import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.world.InteractionResult;
 
 @Config(name = CTFCore.MODID)
 public class CTFAutoConfig implements CTFConfig, ConfigData {
@@ -59,7 +59,9 @@ public class CTFAutoConfig implements CTFConfig, ConfigData {
 	}
 	
 	public static Screen getConfigScreen(Screen parent) {
-		Screen configScreen = AutoConfig.getConfigScreen(CTFAutoConfig.class, parent).get();
+		Screen configScreen = MinecraftClientUtil.isGameVersionReached(775/*26.1*/) ?
+				AutoConfigClient.getConfigScreen(CTFAutoConfig.class, parent).get() :
+				AutoConfig.getConfigScreen(CTFAutoConfig.class, parent).get();
 		ConfigHolder<CTFAutoConfig> configHolder = AutoConfig.getConfigHolder(CTFAutoConfig.class);
 		((AbstractConfigScreen) configScreen).setSavingRunnable(() -> {
 			configHolder.save();
