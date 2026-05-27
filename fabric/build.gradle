@@ -3,15 +3,7 @@ plugins {
 }
 
 base {
-	archivesName = "${rootProject.name}-${mod_version}-fabric+1.17-1.21.11"
-}
-
-repositories {
-	// Add repositories to retrieve artifacts from in here.
-	// You should only use this when depending on other mods because
-	// Loom adds the essential maven repositories to download Minecraft and libraries from automatically.
-	// See https://docs.gradle.org/current/userguide/declaring_repositories.html
-	// for more information about repositories.
+	archivesName = "${mod_id}-${mod_version}-fabric+1.17-1.21.11"
 }
 
 dependencies {
@@ -56,8 +48,18 @@ java {
 }
 
 jar {
-	from("LICENSE") {
-		rename { "${it}_${project.base.archivesName.get()}" }
-	}
 	from project(":common").sourceSets.main.output
 }
+
+tasks.register('buildUnremapped', Jar) {
+	group = 'build'
+	archiveBaseName = "${mod_id}-${mod_version}-fabric-26.1+"
+	from sourceSets.main.output
+	from project(":common").sourceSets.main.output
+	System.setProperty("fabric.loom.dontRemap", "true")
+}
+
+artifacts {
+    archives buildUnremapped
+}
+
