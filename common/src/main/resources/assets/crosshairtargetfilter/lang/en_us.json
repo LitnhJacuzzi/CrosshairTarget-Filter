@@ -13,5 +13,10 @@
   "key.categories.crosshairtargetfilter": "CrosshairTarget Filter",
   "key.category.crosshairtargetfilter.togglefilter": "CrosshairTarget Filter",
   "key.toggleentityfilter": "Toggle Entity Filter",
-  "key.toggleblockfilter": "Toggle Block Filter"
+  "key.toggleblockfilter": "Toggle Block Filter",
+  
+  "crosshairtargetfilter.indicatortext.toggleentityfilter": "Entity Filter ",
+  "crosshairtargetfilter.indicatortext.toggleblockfilter": "Block Filter ",
+  "crosshairtargetfilter.indicatortext.enabled": "Enabled",
+  "crosshairtargetfilter.indicatortext.disabled": "Disabled"
 }

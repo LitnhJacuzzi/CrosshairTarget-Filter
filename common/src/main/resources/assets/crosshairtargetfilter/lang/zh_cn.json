@@ -13,5 +13,10 @@
   "key.categories.crosshairtargetfilter": "十字准星目标过滤器",
   "key.category.crosshairtargetfilter.togglefilter": "十字准星目标过滤器",
   "key.toggleentityfilter": "开启/关闭实体过滤",
-  "key.toggleblockfilter": "开启/关闭方块过滤"
+  "key.toggleblockfilter": "开启/关闭方块过滤",
+  
+  "crosshairtargetfilter.indicatortext.toggleentityfilter": "实体过滤已",
+  "crosshairtargetfilter.indicatortext.toggleblockfilter": "方块过滤已",
+  "crosshairtargetfilter.indicatortext.enabled": "开启",
+  "crosshairtargetfilter.indicatortext.disabled": "关闭"
 }

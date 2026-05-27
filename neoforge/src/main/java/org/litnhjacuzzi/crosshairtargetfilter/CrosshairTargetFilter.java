@@ -7,8 +7,10 @@ import net.minecraft.client.gui.screens.Screen;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.common.Mod;
+import net.neoforged.neoforge.client.event.ClientTickEvent;
 import net.neoforged.neoforge.client.event.RegisterKeyMappingsEvent;
 import net.neoforged.neoforge.client.gui.IConfigScreenFactory;
+import net.neoforged.neoforge.common.NeoForge;
 
 @Mod(CTFCore.MODID)
 public class CrosshairTargetFilter {
@@ -18,6 +20,13 @@ public class CrosshairTargetFilter {
 			public void registerKeyBindings(RegisterKeyMappingsEvent event) {
 				event.register(CTFKeyBindings.TOGGLE_ENTITY_FILTER_KEY);
 				event.register(CTFKeyBindings.TOGGLE_BLOCK_FILTER_KEY);
+			}
+		});
+		
+		NeoForge.EVENT_BUS.register(new Object() {
+			@SubscribeEvent
+			public void onStartTick(ClientTickEvent.Pre e) {
+				CTFKeyBindings.tick();
 			}
 		});
 		

@@ -11,11 +11,20 @@ dependencies {
 	implementation project(':common')
 }
 
+sourceSets {
+	shadow {
+		java {
+			srcDir 'src/shadow/java'
+		}
+		compileClasspath += sourceSets.main.compileClasspath
+	}
+	
+	main {
+		compileClasspath = files(sourceSets.shadow.output) + compileClasspath
+	}
+}
+
 project.jar {
 	archiveFileName = "${rootProject.name}-${mod_version}-neoforge-1.20.5+.jar"
-	exclude 'net/minecraft/**/*.class'
-	from (project(":common").sourceSets.main.output) {
-		exclude 'com/terraformersmc/**/*.class'
-		exclude 'me/shedaniel/**/*.class'
-	}
+	from project(":common").sourceSets.main.output
 }

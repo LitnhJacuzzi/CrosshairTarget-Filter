@@ -41,6 +41,18 @@ public class CTFAutoConfig implements CTFConfig, ConfigData {
 	}
 	
 	@Override
+	public void toggleEntityFilter() {
+		enableEntityFilter = !enableEntityFilter;
+		AutoConfig.getConfigHolder(CTFAutoConfig.class).save();
+	}
+	
+	@Override
+	public void toggleBlockFilter() {
+		enableBlockFilter = !enableBlockFilter;
+		AutoConfig.getConfigHolder(CTFAutoConfig.class).save();
+	}
+	
+	@Override
 	public boolean isEntityFilterEnabled() {
 		return enableEntityFilter;
 	}

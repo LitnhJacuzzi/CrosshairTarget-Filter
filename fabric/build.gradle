@@ -32,6 +32,19 @@ loom {
 	}
 }
 
+sourceSets {
+	shadow {
+		java {
+			srcDir 'src/shadow/java'
+		}
+		compileClasspath += sourceSets.main.compileClasspath
+	}
+	
+	main {
+		compileClasspath = files(sourceSets.shadow.output) + compileClasspath
+	}
+}
+
 java {
 	// Loom will automatically attach sourcesJar to a RemapSourcesJar task and to the "build" task
 	// if it is present.
@@ -46,10 +59,5 @@ jar {
 	from("LICENSE") {
 		rename { "${it}_${project.base.archivesName.get()}" }
 	}
-	
-	exclude 'net/minecraft/**/*.class'
-	from (project(":common").sourceSets.main.output) {
-		exclude 'com/terraformersmc/**/*.class'
-		exclude 'me/shedaniel/**/*.class'
-	}
+	from project(":common").sourceSets.main.output
 }

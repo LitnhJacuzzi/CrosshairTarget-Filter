@@ -19,6 +19,20 @@ dependencies {
 	compileOnlyApi "me.shedaniel.cloth:cloth-config-forge:$clothconfig_version"
 }
 
+sourceSets {
+	shadow {
+		java {
+			srcDir 'src/shadow/java'
+		}
+		compileClasspath += sourceSets.main.compileClasspath
+	}
+	
+	main {
+		compileClasspath = files(sourceSets.shadow.output) + compileClasspath
+	}
+}
+
+
 java {
 	withSourcesJar()
 
