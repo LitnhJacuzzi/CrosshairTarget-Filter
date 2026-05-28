@@ -33,6 +33,6 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         # Artifact name
-        name: imblocker-${{ matrix.project }}
+        name: crosshairtargetfilter-${{ matrix.project }}
         # Directory containing files to upload
         path: ${{ matrix.project }}/build/libs/*.jar
