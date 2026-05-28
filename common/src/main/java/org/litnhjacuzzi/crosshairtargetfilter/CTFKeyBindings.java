@@ -26,14 +26,14 @@ public class CTFKeyBindings {
 			CTFCore.CONFIG.toggleEntityFilter();
 			displayIndicator(createIndicatorComponent(TOGGLE_ENTITY_FILTER_I18N_KEY, 
 					CTFCore.CONFIG.isEntityFilterEnabled()), player);
-			while (TOGGLE_ENTITY_FILTER_KEY.consumeClick());
 		}
 		if (TOGGLE_BLOCK_FILTER_KEY.consumeClick() && player != null) {
 			CTFCore.CONFIG.toggleBlockFilter();
 			displayIndicator(createIndicatorComponent(TOGGLE_BLOCK_FILTER_I18N_KEY, 
 					CTFCore.CONFIG.isBlockFilterEnabled()), player);
-			while (TOGGLE_BLOCK_FILTER_KEY.consumeClick());
 		}
+		while (TOGGLE_ENTITY_FILTER_KEY.consumeClick());
+		while (TOGGLE_BLOCK_FILTER_KEY.consumeClick());
 	}
 	
 	private static MutableComponent createIndicatorComponent(String toggleKey, boolean state) {

@@ -17,8 +17,9 @@ public class CrosshairTargetFilter implements ClientModInitializer {
 			KeyBindingHelper.registerKeyBinding(CTFKeyBindings.TOGGLE_ENTITY_FILTER_KEY);
 			KeyBindingHelper.registerKeyBinding(CTFKeyBindings.TOGGLE_BLOCK_FILTER_KEY);
 		}
+		ClientTickEvents.START_CLIENT_TICK.register(client -> CTFKeyBindings.tick());
+		
 		AutoConfig.register(CTFAutoConfig.class, GsonConfigSerializer::new);
 		CTFCore.CONFIG = AutoConfig.getConfigHolder(CTFAutoConfig.class).getConfig();
-		ClientTickEvents.START_CLIENT_TICK.register(client -> CTFKeyBindings.tick());
 	}
 }

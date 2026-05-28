@@ -1,5 +1,6 @@
 {
 	"required": true,
+	"minVersion": "0.8",
 	"package": "org.litnhjacuzzi.crosshairtargetfilter.mixin",
 	"refmap": "crosshairtargetfilter.mixins.refmap.json",
 	"compatibilityLevel": "JAVA_17",
