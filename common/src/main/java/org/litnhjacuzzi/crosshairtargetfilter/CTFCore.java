@@ -3,13 +3,17 @@ package org.litnhjacuzzi.crosshairtargetfilter;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
+import java.util.function.Function;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
@@ -18,6 +22,7 @@ public class CTFCore {
 	public static final String MODID = "crosshairtargetfilter";
 	public static final Logger LOGGER = LogManager.getLogger();
 	
+	private static final Function<String, Optional<EntityType<?>>> entityTypeRegistryAccessor;
 	private static final BlockRegistryAccessor blockRegistryAccessor;
 	
 	public static boolean isPicking = false;
@@ -75,7 +80,7 @@ public class CTFCore {
 					} catch (Throwable e) {} 
 				}
 			} else {
-				EntityType.byString(entityToFilter).ifPresent(filteredEntityType -> {
+				entityTypeRegistryAccessor.apply(entityToFilter).ifPresent(filteredEntityType -> {
 					FilterTarget filteredEntityTypeCasted = (FilterTarget) filteredEntityType;
 					filteredEntityTypeCasted.ctf$markListed();
 					filteredEntityTypes.add(filteredEntityTypeCasted);
@@ -111,6 +116,12 @@ public class CTFCore {
 	}
 	
 	static {
+		if (MinecraftClientUtil.isGameVersionReached(776/*26.2*/)) {
+			entityTypeRegistryAccessor = registryName -> BuiltInRegistries.ENTITY_TYPE.getOptional(Identifier.tryParse(registryName));
+		}else {
+			entityTypeRegistryAccessor = EntityType::byString;
+		}
+		
 		Class<?> blockRegistryAccessorCls = null;
 		try {
 			blockRegistryAccessorCls = Class.forName("org.litnhjacuzzi.crosshairtargetfilter.BlockRegistryAccessorImpl");
