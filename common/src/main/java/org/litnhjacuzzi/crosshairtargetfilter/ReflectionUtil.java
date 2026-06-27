@@ -25,4 +25,12 @@ public class ReflectionUtil {
 			return null;
 		}
 	}
+	
+	public static Object newInstance(String className, Class<?>[] paramTypes, Object... params) {
+		try {
+			return newInstance(Class.forName(className), paramTypes, params);
+		} catch (Exception e) {
+			return null;
+		}
+	}
 }

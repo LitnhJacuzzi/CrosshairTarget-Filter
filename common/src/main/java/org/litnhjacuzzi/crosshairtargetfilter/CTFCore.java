@@ -9,21 +9,27 @@ import java.util.function.Function;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.litnhjacuzzi.crosshairtargetfilter.accessor.ModLoaderAccessor;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
+import net.minecraft.world.level.block.Block;
 
+@SuppressWarnings({ "unchecked", "rawtypes" })
 public class CTFCore {
 	public static final String MODID = "crosshairtargetfilter";
 	public static final Logger LOGGER = LogManager.getLogger();
 	
+	private static final ModLoaderAccessor modLoaderAccessor;
+	
 	private static final Function<String, Optional<EntityType<?>>> entityTypeRegistryAccessor;
-	private static final BlockRegistryAccessor blockRegistryAccessor;
+	private static final Function<String, Optional<Block>> blockRegistryAccessor;
 	
 	public static boolean isPicking = false;
 	
@@ -90,7 +96,7 @@ public class CTFCore {
 		hasEntityNames = !filteredEntityNames.isEmpty();
 		
 		for (String blockToFilter: blocksToFilter) {
-			blockRegistryAccessor.byString(blockToFilter).ifPresent(filteredBlock -> {
+			blockRegistryAccessor.apply(blockToFilter).ifPresent(filteredBlock -> {
 				FilterTarget filteredBlockCasted = (FilterTarget) filteredBlock;
 				filteredBlockCasted.ctf$markListed();
 				filteredBlocks.add(filteredBlockCasted);
@@ -112,20 +118,24 @@ public class CTFCore {
 	}
 	
 	public static boolean isIntermediary() {
-		return blockRegistryAccessor.isIntermediary();
+		return modLoaderAccessor.isIntermediary();
 	}
 	
 	static {
+		modLoaderAccessor = (ModLoaderAccessor) ReflectionUtil.newInstance("org.litnhjacuzzi.crosshairtargetfilter.ModLoaderAccessorImpl", new Class[0]);
+		
 		if (MinecraftClientUtil.isGameVersionReached(776/*26.2*/)) {
 			entityTypeRegistryAccessor = registryName -> BuiltInRegistries.ENTITY_TYPE.getOptional(Identifier.tryParse(registryName));
-		}else {
+		} else {
 			entityTypeRegistryAccessor = EntityType::byString;
 		}
 		
-		Class<?> blockRegistryAccessorCls = null;
-		try {
-			blockRegistryAccessorCls = Class.forName("org.litnhjacuzzi.crosshairtargetfilter.BlockRegistryAccessorImpl");
-		} catch (Throwable e) {}
-		blockRegistryAccessor = (BlockRegistryAccessor) ReflectionUtil.newInstance(blockRegistryAccessorCls, new Class[0]);
+		if (!modLoaderAccessor.isIntermediary() && MinecraftClientUtil.isGameVersionReached(774/*1.21.11*/)) {
+			blockRegistryAccessor = registryName -> BuiltInRegistries.BLOCK.getOptional(Identifier.tryParse(registryName));
+		} else if (MinecraftClientUtil.isGameVersionReached(761/*1.19.3*/)) {
+			blockRegistryAccessor = registryName -> BuiltInRegistries.BLOCK.getOptional(ResourceLocation.tryParse(registryName));
+		} else {
+			blockRegistryAccessor = (Function) ReflectionUtil.newInstance("org.litnhjacuzzi.crosshairtargetfilter.BlockRegistryAccessorLegacy", new Class[0]);
+		}
 	}
 }
