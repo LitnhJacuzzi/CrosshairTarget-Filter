@@ -14,8 +14,9 @@ This mod features two **keybindings** that conveniently toggle the filters on/of
 For naming conventions of list elements, please read further:
 
 ### Entities
-Entities can be filtered by **type**, **category** or **name**.  
+Entities can be filtered by **type**, **tag**, **category** or **name**.  
  - Types are specified in the format `<namespace>:<registryName>`, such as `minecraft:pig`, which can be found in the target entity section of F3 debug overlay.  
+ - Tags are specified in the format `#<namespace>:<registryName>`, such as `#minecraft:undead`, which can be found in [Minecraft Wiki](https://minecraft.wiki/w/Entity_type_tag_(Java_Edition)) or below the target entity section of F3 debug overlay since 26.1.
  - Categories are specified in the format `[<category>]`, such as `[MONSTER]`.  
    As of 26.2, there are 8 categories in total:
    ```

@@ -7,7 +7,7 @@ import net.minecraft.world.level.block.Block;
 
 /**net.minecraft.core.Registry*/
 public abstract class class_2378<T> {
-	/**ENTITY*/
+	/**ENTITY_TYPE*/
 	public static final class_2348<EntityType<?>> field_11145 = null;
 	/**ENTITY_TYPE_REGISTRY*/
 	public static final ResourceKey<Registry<EntityType<?>>> field_25107 = null;

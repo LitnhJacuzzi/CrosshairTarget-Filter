@@ -9,8 +9,9 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.block.Block;
 
 public interface Registry<T> {
+	/**ENTITY_TYPE*/
 	public static final DefaultedRegistry<EntityType<?>> f_122826_ = null;
-	
+	/**ENTITY_TYPE_REGISTRY*/
 	public static final ResourceKey<Registry<EntityType<?>>> f_122903_ = null;
 	/**BLOCK*/
 	public static final DefaultedRegistry<Block> f_122824_ = null;
