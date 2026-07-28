@@ -1,5 +1,7 @@
 package org.litnhjacuzzi.crosshairtargetfilter;
 
+import static org.litnhjacuzzi.crosshairtargetfilter.MinecraftProtocolVersions.*;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -71,7 +73,7 @@ public class CTFAutoConfig implements CTFConfig, ConfigData {
 	}
 	
 	public static Screen getConfigScreen(Screen parent) {
-		Screen configScreen = MinecraftClientUtil.isGameVersionReached(775/*26.1*/) ?
+		Screen configScreen = MinecraftClientUtil.isGameVersionReached(v26_1) ?
 				AutoConfigClient.getConfigScreen(CTFAutoConfig.class, parent).get() :
 				AutoConfig.getConfigScreen(CTFAutoConfig.class, parent).get();
 		ConfigHolder<CTFAutoConfig> configHolder = AutoConfig.getConfigHolder(CTFAutoConfig.class);

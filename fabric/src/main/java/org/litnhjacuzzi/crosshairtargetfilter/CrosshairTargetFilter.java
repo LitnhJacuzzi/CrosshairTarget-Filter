@@ -1,5 +1,7 @@
 package org.litnhjacuzzi.crosshairtargetfilter;
 
+import static org.litnhjacuzzi.crosshairtargetfilter.MinecraftProtocolVersions.*;
+
 import me.shedaniel.autoconfig.AutoConfig;
 import me.shedaniel.autoconfig.serializer.GsonConfigSerializer;
 import net.fabricmc.api.ClientModInitializer;
@@ -10,7 +12,7 @@ import net.fabricmc.fabric.api.client.keymapping.v1.KeyMappingHelper;
 public class CrosshairTargetFilter implements ClientModInitializer {
 	@Override
 	public void onInitializeClient() {
-		if (MinecraftClientUtil.isGameVersionReached(775/*26.1*/)) {
+		if (MinecraftClientUtil.isGameVersionReached(v26_1)) {
 			KeyMappingHelper.registerKeyMapping(CTFKeyBindings.TOGGLE_ENTITY_FILTER_KEY);
 			KeyMappingHelper.registerKeyMapping(CTFKeyBindings.TOGGLE_BLOCK_FILTER_KEY);
 		} else {

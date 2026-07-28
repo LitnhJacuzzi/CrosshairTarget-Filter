@@ -1,5 +1,7 @@
 package org.litnhjacuzzi.crosshairtargetfilter;
 
+import static org.litnhjacuzzi.crosshairtargetfilter.MinecraftProtocolVersions.*;
+
 import org.lwjgl.glfw.GLFW;
 
 import com.mojang.blaze3d.platform.InputConstants.Type;
@@ -37,7 +39,7 @@ public class CTFKeyBindings {
 	}
 	
 	private static MutableComponent createIndicatorComponent(String toggleKey, boolean state) {
-		if (MinecraftClientUtil.isGameVersionReached(766/*1.20.5*/)) {
+		if (MinecraftClientUtil.isGameVersionReached(v1_20_5)) {
 			Component stateComponent = state ?
 					Component.translatable(ENABLED_I18N_KEY).withStyle(ChatFormatting.GREEN) :
 					Component.translatable(DISABLED_I18N_KEY).withStyle(ChatFormatting.RED);
@@ -57,7 +59,7 @@ public class CTFKeyBindings {
 	}
 	
 	private static void displayIndicator(Component indicator, Player player) {
-		if (MinecraftClientUtil.isGameVersionReached(775/*26.1*/)) {
+		if (MinecraftClientUtil.isGameVersionReached(v26_1)) {
 			player.sendOverlayMessage(indicator);
 		} else {
 			player.displayClientMessage(indicator, true);
@@ -83,7 +85,7 @@ public class CTFKeyBindings {
 				} catch (Throwable e1) {}
 			} else {
 				try {
-					Class<?> identifierCls = MinecraftClientUtil.isGameVersionReached(774/*1.21.11*/) ? 
+					Class<?> identifierCls = MinecraftClientUtil.isGameVersionReached(v1_21_11) ? 
 							Class.forName("net.minecraft.resources.Identifier") : 
 							Class.forName("net.minecraft.resources.ResourceLocation");
 					Object identifier = ReflectionUtil.invokeMethod(identifierCls, null, null, 

@@ -1,0 +1,7 @@
+package net.minecraft.tags;
+
+import net.minecraft.resources.ResourceLocation;
+
+public interface TagCollection<T> {
+	Tag<T> m_7689_(ResourceLocation location);
+}

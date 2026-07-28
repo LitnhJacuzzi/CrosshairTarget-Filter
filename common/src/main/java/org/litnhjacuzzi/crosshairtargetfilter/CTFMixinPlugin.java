@@ -1,5 +1,7 @@
 package org.litnhjacuzzi.crosshairtargetfilter;
 
+import static org.litnhjacuzzi.crosshairtargetfilter.MinecraftProtocolVersions.*;
+
 import java.util.List;
 import java.util.Set;
 
@@ -19,7 +21,7 @@ public class CTFMixinPlugin implements IMixinConfigPlugin {
 				"EntityTypeMixin",
 				"MobCategoryMixin");
 		
-		if (MinecraftClientUtil.isGameVersionReached(774/*1.21.11*/)) {
+		if (MinecraftClientUtil.isGameVersionReached(v1_21_11)) {
 			validMixins.add("LocalPlayerMixin");
 		} else {
 			validMixins.add("GameRendererMixin");

@@ -1,11 +1,14 @@
 package org.litnhjacuzzi.crosshairtargetfilter;
 
+import static org.litnhjacuzzi.crosshairtargetfilter.MinecraftProtocolVersions.*;
+
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.function.Function;
+import java.util.stream.StreamSupport;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -13,9 +16,12 @@ import org.litnhjacuzzi.crosshairtargetfilter.accessor.ModLoaderAccessor;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
@@ -30,6 +36,7 @@ public class CTFCore {
 	
 	private static final Function<String, Optional<EntityType<?>>> entityTypeRegistryAccessor;
 	private static final Function<String, Optional<Block>> blockRegistryAccessor;
+	private static final Function<String, List<Block>> blockTagAccessor;
 	
 	public static boolean isPicking = false;
 	
@@ -96,11 +103,23 @@ public class CTFCore {
 		hasEntityNames = !filteredEntityNames.isEmpty();
 		
 		for (String blockToFilter: blocksToFilter) {
-			blockRegistryAccessor.apply(blockToFilter).ifPresent(filteredBlock -> {
-				FilterTarget filteredBlockCasted = (FilterTarget) filteredBlock;
-				filteredBlockCasted.ctf$markListed();
-				filteredBlocks.add(filteredBlockCasted);
-			});
+			if (blockToFilter.startsWith("#")) {
+				if (blockToFilter.length() > 1) {
+					try {
+						blockTagAccessor.apply(blockToFilter.substring(1)).forEach(CTFCore::tryAddFilteredBlock);
+					} catch (Throwable e) {}
+				}
+			} else {
+				blockRegistryAccessor.apply(blockToFilter).ifPresent(CTFCore::tryAddFilteredBlock);
+			}
+		}
+	}
+	
+	private static void tryAddFilteredBlock(Block block) {
+		FilterTarget blockCasted = (FilterTarget) block;
+		if (!blockCasted.ctf$isListed()) {
+			blockCasted.ctf$markListed();
+			filteredBlocks.add(blockCasted);
 		}
 	}
 	
@@ -124,18 +143,27 @@ public class CTFCore {
 	static {
 		modLoaderAccessor = (ModLoaderAccessor) ReflectionUtil.newInstance("org.litnhjacuzzi.crosshairtargetfilter.ModLoaderAccessorImpl", new Class[0]);
 		
-		if (MinecraftClientUtil.isGameVersionReached(776/*26.2*/)) {
+		if (MinecraftClientUtil.isGameVersionReached(v26_2)) {
 			entityTypeRegistryAccessor = registryName -> BuiltInRegistries.ENTITY_TYPE.getOptional(Identifier.tryParse(registryName));
 		} else {
 			entityTypeRegistryAccessor = EntityType::byString;
 		}
 		
-		if (!modLoaderAccessor.isIntermediary() && MinecraftClientUtil.isGameVersionReached(774/*1.21.11*/)) {
+		if (!modLoaderAccessor.isIntermediary() && MinecraftClientUtil.isGameVersionReached(v1_21_11)) {
 			blockRegistryAccessor = registryName -> BuiltInRegistries.BLOCK.getOptional(Identifier.tryParse(registryName));
-		} else if (MinecraftClientUtil.isGameVersionReached(761/*1.19.3*/)) {
+			blockTagAccessor = tagName -> StreamSupport.stream(BuiltInRegistries.BLOCK.getTagOrEmpty(
+					TagKey.create(Registries.BLOCK, Identifier.tryParse(tagName))).spliterator(), true).map(Holder::value).toList();
+		} else if (MinecraftClientUtil.isGameVersionReached(v1_19_3)) {
 			blockRegistryAccessor = registryName -> BuiltInRegistries.BLOCK.getOptional(ResourceLocation.tryParse(registryName));
+			blockTagAccessor = tagName -> StreamSupport.stream(BuiltInRegistries.BLOCK.getTagOrEmpty(
+					TagKey.create(Registries.BLOCK, ResourceLocation.tryParse(tagName))).spliterator(), true).map(Holder::value).toList();
 		} else {
 			blockRegistryAccessor = (Function) ReflectionUtil.newInstance("org.litnhjacuzzi.crosshairtargetfilter.BlockRegistryAccessorLegacy", new Class[0]);
+			if (MinecraftClientUtil.isGameVersionReached(v1_18_2)) {
+				blockTagAccessor = (Function) ReflectionUtil.newInstance("org.litnhjacuzzi.crosshairtargetfilter.BlockTagAccessor1182", new Class[0]);
+			} else {
+				blockTagAccessor = (Function) ReflectionUtil.newInstance("org.litnhjacuzzi.crosshairtargetfilter.BlockTagAccessor1171", new Class[0]);
+			}
 		}
 	}
 }
