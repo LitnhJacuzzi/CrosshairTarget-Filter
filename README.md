@@ -31,4 +31,6 @@ Entities can be filtered by **type**, **category** or **name**.
    Note: Wandering trader belongs to `CREATURE` category.
  - Names are specified in the format `"<name>"`, such as `"Example"`.
 ### Blocks
-Blocks can only be filtered by type in the format `<namespace>:<registryName>`, such as `minecraft:stone`, which can be found in the target block section of F3 debug overlay.
+Blocks can be filtered by **type** or **tag**.
+ - Types are specified in the format `<namespace>:<registryName>`, such as `minecraft:stone`, which can be found in the target block section of F3 debug overlay.  
+ - Tags are specified in the format `#<namespace>:<registryName>`, such as `#minecraft:logs`, which can be found below the target block section of F3 debug overlay.

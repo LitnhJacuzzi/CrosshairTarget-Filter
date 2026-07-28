@@ -142,7 +142,6 @@ public class CTFCore {
 	
 	public static void checkTagReloaded() {
 		if (tagReloaded) {
-			System.out.println("Tag Reloaded.");
 			CONFIG.reload();
 			tagReloaded = false;
 		}
