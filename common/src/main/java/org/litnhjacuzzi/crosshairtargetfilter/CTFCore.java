@@ -35,6 +35,7 @@ public class CTFCore {
 	private static final ModLoaderAccessor modLoaderAccessor;
 	
 	private static final Function<String, Optional<EntityType<?>>> entityTypeRegistryAccessor;
+	private static final Function<String, List<? extends EntityType>> entityTagAccessor;
 	private static final Function<String, Optional<Block>> blockRegistryAccessor;
 	private static final Function<String, List<Block>> blockTagAccessor;
 	
@@ -94,12 +95,12 @@ public class CTFCore {
 						filteredMobCategoties.add(mobCategory);
 					} catch (Throwable e) {} 
 				}
+			} else if (entityToFilter.startsWith("#")) {
+				try {
+					entityTagAccessor.apply(entityToFilter.substring(1)).forEach(CTFCore::tryAddFilteredEntity);
+				} catch (Throwable e) {}
 			} else {
-				entityTypeRegistryAccessor.apply(entityToFilter).ifPresent(filteredEntityType -> {
-					FilterTarget filteredEntityTypeCasted = (FilterTarget) filteredEntityType;
-					filteredEntityTypeCasted.ctf$markListed();
-					filteredEntityTypes.add(filteredEntityTypeCasted);
-				});
+				entityTypeRegistryAccessor.apply(entityToFilter).ifPresent(CTFCore::tryAddFilteredEntity);
 			}
 		}
 		hasEntityNames = !filteredEntityNames.isEmpty();
@@ -112,6 +113,14 @@ public class CTFCore {
 			} else {
 				blockRegistryAccessor.apply(blockToFilter).ifPresent(CTFCore::tryAddFilteredBlock);
 			}
+		}
+	}
+	
+	private static void tryAddFilteredEntity(EntityType entity) {
+		FilterTarget entityCasted = (FilterTarget) entity;
+		if (!entityCasted.ctf$isListed()) {
+			entityCasted.ctf$markListed();
+			filteredEntityTypes.add(entityCasted);
 		}
 	}
 	
@@ -162,17 +171,23 @@ public class CTFCore {
 		
 		if (!modLoaderAccessor.isIntermediary() && MinecraftClientUtil.isGameVersionReached(v1_21_11)) {
 			blockRegistryAccessor = registryName -> BuiltInRegistries.BLOCK.getOptional(Identifier.tryParse(registryName));
+			entityTagAccessor = tagName -> StreamSupport.stream(BuiltInRegistries.ENTITY_TYPE.getTagOrEmpty(
+					TagKey.create(Registries.ENTITY_TYPE, Identifier.tryParse(tagName))).spliterator(), true).map(Holder::value).toList();
 			blockTagAccessor = tagName -> StreamSupport.stream(BuiltInRegistries.BLOCK.getTagOrEmpty(
 					TagKey.create(Registries.BLOCK, Identifier.tryParse(tagName))).spliterator(), true).map(Holder::value).toList();
 		} else if (MinecraftClientUtil.isGameVersionReached(v1_19_3)) {
 			blockRegistryAccessor = registryName -> BuiltInRegistries.BLOCK.getOptional(ResourceLocation.tryParse(registryName));
+			entityTagAccessor = tagName -> StreamSupport.stream(BuiltInRegistries.ENTITY_TYPE.getTagOrEmpty(
+					TagKey.create(Registries.ENTITY_TYPE, ResourceLocation.tryParse(tagName))).spliterator(), true).map(Holder::value).toList();
 			blockTagAccessor = tagName -> StreamSupport.stream(BuiltInRegistries.BLOCK.getTagOrEmpty(
 					TagKey.create(Registries.BLOCK, ResourceLocation.tryParse(tagName))).spliterator(), true).map(Holder::value).toList();
 		} else {
 			blockRegistryAccessor = (Function) ReflectionUtil.newInstance("org.litnhjacuzzi.crosshairtargetfilter.BlockRegistryAccessorLegacy", new Class[0]);
 			if (MinecraftClientUtil.isGameVersionReached(v1_18_2)) {
+				entityTagAccessor = (Function) ReflectionUtil.newInstance("org.litnhjacuzzi.crosshairtargetfilter.EntityTagAccessor1182", new Class[0]);
 				blockTagAccessor = (Function) ReflectionUtil.newInstance("org.litnhjacuzzi.crosshairtargetfilter.BlockTagAccessor1182", new Class[0]);
 			} else {
+				entityTagAccessor = (Function) ReflectionUtil.newInstance("org.litnhjacuzzi.crosshairtargetfilter.EntityTagAccessor1171", new Class[0]);
 				blockTagAccessor = (Function) ReflectionUtil.newInstance("org.litnhjacuzzi.crosshairtargetfilter.BlockTagAccessor1171", new Class[0]);
 			}
 		}
