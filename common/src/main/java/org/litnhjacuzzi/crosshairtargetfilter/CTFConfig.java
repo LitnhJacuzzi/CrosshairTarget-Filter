@@ -1,6 +1,7 @@
 package org.litnhjacuzzi.crosshairtargetfilter;
 
 public interface CTFConfig {
+	default void reload() {}
 	default void toggleEntityFilter() {};
 	default void toggleBlockFilter() {};
 	boolean isEntityFilterEnabled();

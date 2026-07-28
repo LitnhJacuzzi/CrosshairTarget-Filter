@@ -4,6 +4,7 @@ import java.util.Optional;
 
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.level.block.Block;
 
 public interface Registry<T> {
@@ -12,5 +13,7 @@ public interface Registry<T> {
 	/**BLOCK_REGISTRY*/
 	public static final ResourceKey<Registry<Block>> f_122901_ = null;
 	
-	Optional<T> getOptional(ResourceLocation resourceLocation);	
+	Optional<T> getOptional(ResourceLocation resourceLocation);
+
+	Iterable<Holder<T>> getTagOrEmpty(TagKey<T> tagKey);
 }

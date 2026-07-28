@@ -16,6 +16,7 @@ public class CTFMixinPlugin implements IMixinConfigPlugin {
 	
 	static {
 		validMixins = Lists.newArrayList(
+				"MinecraftClientMixin",
 				"BlockGetterMixin",
 				"BlockMixin",
 				"EntityTypeMixin",
@@ -25,6 +26,12 @@ public class CTFMixinPlugin implements IMixinConfigPlugin {
 			validMixins.add("LocalPlayerMixin");
 		} else {
 			validMixins.add("GameRendererMixin");
+		}
+		
+		if (MinecraftClientUtil.isGameVersionReached(v1_18_2)) {
+			validMixins.add("TagBindListenerV2");
+		} else {
+			validMixins.add("TagBindListenerV1");
 		}
 	}
 

@@ -62,6 +62,8 @@ public class CTFCore {
 		}
 	};
 	
+	private static boolean tagReloaded = false;
+	
 	private static final List<FilterTarget> filteredEntityTypes = new ArrayList<>();
 	private static final List<FilterTarget> filteredMobCategoties = new ArrayList<>();
 	private static final Set<String> filteredEntityNames = new HashSet<>();
@@ -104,11 +106,9 @@ public class CTFCore {
 		
 		for (String blockToFilter: blocksToFilter) {
 			if (blockToFilter.startsWith("#")) {
-				if (blockToFilter.length() > 1) {
-					try {
-						blockTagAccessor.apply(blockToFilter.substring(1)).forEach(CTFCore::tryAddFilteredBlock);
-					} catch (Throwable e) {}
-				}
+				try {
+					blockTagAccessor.apply(blockToFilter.substring(1)).forEach(CTFCore::tryAddFilteredBlock);
+				} catch (Throwable e) {}
 			} else {
 				blockRegistryAccessor.apply(blockToFilter).ifPresent(CTFCore::tryAddFilteredBlock);
 			}
@@ -134,6 +134,18 @@ public class CTFCore {
 		if (Minecraft.getInstance().level == null) return true;
 		boolean isFiltered = ((FilterTarget) Minecraft.getInstance().level.getBlockState(pos).getBlock()).ctf$isListed();
 		return isFiltered == (CONFIG.getBlockFilterType() == FilterType.WHITELIST);
+	}
+	
+	public static void markTagReloaded() {
+		tagReloaded = true;
+	}
+	
+	public static void checkTagReloaded() {
+		if (tagReloaded) {
+			System.out.println("Tag Reloaded.");
+			CONFIG.reload();
+			tagReloaded = false;
+		}
 	}
 	
 	public static boolean isIntermediary() {

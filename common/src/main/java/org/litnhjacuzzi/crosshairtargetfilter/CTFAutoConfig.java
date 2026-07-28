@@ -36,6 +36,11 @@ public class CTFAutoConfig implements CTFConfig, ConfigData {
 	List<String> blockBlacklist = new ArrayList<>();
 	
 	@Override
+	public void reload() {
+		validatePostLoad();
+	}
+	
+	@Override
 	public void validatePostLoad() {
 		List<String> entitiesToFilter = entityFilterType == FilterType.WHITELIST ? entityWhitelist : entityBlacklist;
 		List<String> blocksToFilter = blockFilterType == FilterType.WHITELIST ? blockWhitelist : blockBlacklist;
