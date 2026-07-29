@@ -1,0 +1,1 @@
+Entities can also be filtered by tags now, refer to mod overview for the naming convention.
